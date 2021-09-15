@@ -1,0 +1,11 @@
+.RData
+.DS_Store
+
+Data/reference/*
+!README.md
+!Data/metadata
+
+*temp*
+*.docx*
+*.Rproj.user*
+*.Rhistory*
