@@ -2,7 +2,6 @@
 ## Load packages
 library(tidyverse)
 library(stringr)
-library(ggrepel)
 library(glue)
 library(rlang)
 
@@ -28,7 +27,7 @@ tibble_files <- tibble(tibble_files) %>%
     pull(tibble_files)
 
 names(tibble_files) <- str_replace(string = tibble_files,
-                                   pattern = "../results/(.*)_tajima.xlsx",
+                                   pattern = "../results/Tables/(.*)_tajima.xlsx",
                                    replacement = "\\1")
 
 Data <- map_dfr(.x = tibble_files, .f = read_tsv, .id = "Population") %>% 
@@ -67,12 +66,12 @@ Data <- Data %>%
 # Then we need to prepare the X axis. Indeed we do not want to display the cumulative position of SNP in bp, 
 # but just show the chromosome name instead.
 
-axis_set <- taj %>%
+axis_set <- Data %>%
     group_by(Chr) %>%
     summarize(center = mean(BPcum))
 
-ylim <- abs(floor(max(taj$Tajima.D))) + 1
-ylimits <- c(floor(min(taj$Tajima.D)), ylim)
+ylim <- abs(floor(max(Data$Tajima.D))) + 1
+ylimits <- c(floor(min(Data$Tajima.D)), ylim)
 
 # Ready to make the manhattan plot using ggplot2:
 tajima.manhattan <- function(data, xcolumn, ycolumn, color, axis_set, ylimits)
@@ -107,5 +106,5 @@ tajima.manhattan <- function(data, xcolumn, ycolumn, color, axis_set, ylimits)
         facet_wrap(~Population, ncol = 5)
 }
 
-tajima.manhattan(taj, BPcum, Tajima.D, Chr, axis_set, ylimits)
-ggsave("../results/Figures/tajima.jpeg")
+tajima.manhattan(Data, BPcum, Tajima.D, Chr, axis_set, ylimits)
+ggsave("../results/Figures/tajima.png", width = 30, height = 20, units = "cm")
