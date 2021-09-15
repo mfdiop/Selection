@@ -9,3 +9,4 @@ Data/reference/*
 *.docx*
 *.Rproj.user*
 *.Rhistory*
+Rplot
