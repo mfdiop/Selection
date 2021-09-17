@@ -127,7 +127,7 @@ imputeMissingGenotypes <- function(PhasedData, firstColumns, numberOfSimulation,
     samples <- scan(paste0(dirname(outputDir), '/SampleIDs.txt'), 
                            what = 'character')
     Imputation <- fread(paste0(outputDir, '/Imputed_', index, ".txt"))
-    names(Imputation) <- c("CHROM", "POS", "REF", "ALT", "AMINO_ACID", "CODON", samples)
+    names(Imputation) <- c("CHROM", "POS", "REF", "ALT", "SNPEFF_EFFECT", samples)
     write.table(Imputation, Name, col.names = TRUE, row.names = FALSE, quote = FALSE, sep = '\t')
 }
 
